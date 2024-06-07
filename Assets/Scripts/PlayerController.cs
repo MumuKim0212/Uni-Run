@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
    public AudioClip jumpClip;           // 점프시 재생할 오디오 클립
    public AudioClip deathClip;          // 사망시 재생할 오디오 클립
-    public float jumpForce = 700f;      // 점프 힘
+   public float jumpForce = 700f;      // 점프 힘
 
    private int jumpCount = 0;           // 누적 점프 횟수
    private bool isGrounded = false;     // 바닥에 닿았는지 나타냄
