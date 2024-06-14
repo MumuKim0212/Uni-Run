@@ -91,10 +91,13 @@ public class PlayerController : MonoBehaviour
     // 트리거 콜라이더를 가진 장애물과의 충돌을 감지
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 충돌한 상대방의 태그가 Dead이며 아직 사망하지 않았다면 Die 실행
-        if (other.tag == "Dead" && !isDead)
-            Die();
         if (other.tag == "Item")
             playerAudio.PlayOneShot(getItem);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 충돌한 상대방의 태그가 Dead이며 아직 사망하지 않았다면 Die 실행
+        if (collision.collider.tag == "Dead" && !isDead)
+            Die();
     }
 }

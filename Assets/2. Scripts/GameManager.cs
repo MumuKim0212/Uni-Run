@@ -9,9 +9,12 @@ public class GameManager : MonoBehaviour {
 
     public bool isGameover = false;     // 게임 오버 상태
     public Text scoreText;              // 점수를 출력할 UI 텍스트
+    public RectTransform scoreRect;
     public GameObject gameoverUI;       // 게임 오버시 활성화 할 UI 게임 오브젝트
 
     private int score = 0;              // 게임 점수
+    int scoreAdd = 0;
+    float texttmp = 0;
 
     // 게임 시작과 동시에 싱글톤을 구성
     void Awake() {
@@ -38,6 +41,9 @@ public class GameManager : MonoBehaviour {
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
+        if (scoreAdd == 1)
+            ScoreAdd();
     }
 
     // 점수를 증가시키는 메서드
@@ -45,7 +51,26 @@ public class GameManager : MonoBehaviour {
         if(!isGameover)
         {
             score += newScore;
+            scoreAdd = 1;
             scoreText.text = "Score : " + score;
+        }
+    }
+    void ScoreAdd()
+    {
+        if(texttmp <= 2.5f)
+        {
+            scoreRect.position += Vector3.up;
+            texttmp += 0.1f;
+        }
+        else if(texttmp <= 5f)
+        {
+            scoreRect.position += Vector3.down;
+            texttmp += 0.1f;
+        }
+        else
+        {
+            texttmp = 0;
+            scoreAdd = 0;
         }
     }
 
