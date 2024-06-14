@@ -9,8 +9,9 @@ public class PlayerController : MonoBehaviour
     public AudioClip getItem;          // 사망시 재생할 오디오 클립
     public float jumpForce = 700f;      // 점프 힘
     public ParticleSystem particle;
-
-    private int jumpCount = 0;           // 누적 점프 횟수
+    public GameManager gameManager;
+    public Music music;
+    public GameObject[] heart;
     private bool isGrounded = false;     // 바닥에 닿았는지 나타냄
     private bool isDead = false;         // 사망 상태
 
@@ -18,13 +19,15 @@ public class PlayerController : MonoBehaviour
     private Animator animator;           // 사용할 애니메이터 컴포넌트
     private AudioSource playerAudio;     // 사용할 오디오 소스 컴포넌트
 
+    private int life = 2;
+
 
     private void Start()
     {
-        // 초기화
         playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
+
     }
 
     private void Update()
@@ -41,14 +44,13 @@ public class PlayerController : MonoBehaviour
 
         // 마우스 왼쪽 버튼을 누름 && 최대 점프 횟수에 도달하지 않으면
         // 0: 왼쪽버튼, 1: 오른쪽버튼, 2: 휠 스크롤 버튼
-        //if (Input.GetMouseButtonDown(0) && jumpCount < 2)
         if (Input.GetMouseButtonDown(0))
         {
-            playerAudio.PlayOneShot(jumpClip);
+            if (Music.instance.isSoundOn == true)
+                playerAudio.PlayOneShot(jumpClip);
             if (!particle.isPlaying)
                 particle.Play();
-            // 점프 횟수 증가
-            jumpCount++;
+
             // 점프 직전에 속도를 순간적으로 제로(0,0)로 변경
             // 움직이던 힘이 합쳐져 점프 높이가 비일관적이 되지 않도록
             playerRigidbody.velocity = Vector2.zero;
@@ -74,8 +76,8 @@ public class PlayerController : MonoBehaviour
         // 애니메이터의 Die 트리거 파라미터를 셋
         animator.SetTrigger("Die");
 
-        // deathClip 오디오클립 실헹
-        playerAudio.PlayOneShot(deathClip);
+        if (Music.instance.isSoundOn == true)
+            playerAudio.PlayOneShot(deathClip);
 
         // 속도를 제로(0,0)로 변경
         playerRigidbody.velocity = Vector2.zero;
@@ -85,19 +87,26 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.AddForce(Vector2.up * 700);
 
         // 게임 매니저의 게임오버 처리 실행
-        GameManager.instance.OnPlayerDead();
+        gameManager.OnPlayerDead();
     }
 
     // 트리거 콜라이더를 가진 장애물과의 충돌을 감지
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Item")
+        if (other.tag == "Item" && Music.instance.isSoundOn == true)
             playerAudio.PlayOneShot(getItem);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         // 충돌한 상대방의 태그가 Dead이며 아직 사망하지 않았다면 Die 실행
         if (collision.collider.tag == "Dead" && !isDead)
+        {
+            collision.gameObject.SetActive(false);
+            if (life > 0) heart[life--].SetActive(false);
+            else Die();
+        }
+        else if (collision.collider.tag == "Finish" && !isDead)
             Die();
     }
 }

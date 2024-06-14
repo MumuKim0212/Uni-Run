@@ -10,8 +10,8 @@ public class PlatformSpawner : MonoBehaviour
     public float timeItemSpawnMin = 1.25f; // 다음 배치까지의 시간 간격 최솟값
     public float timeItemSpawnMax = 2.25f; // 다음 배치까지의 시간 간격 최댓값
     private float timeItemSpawn; // 다음 배치까지의 시간 간격
-    public float timeEnemySpawnMin = 1f; // 다음 배치까지의 시간 간격 최솟값
-    public float timeEnemySpawnMax = 2f; // 다음 배치까지의 시간 간격 최댓값
+    public float timeEnemySpawnMin = 1.5f; // 다음 배치까지의 시간 간격 최솟값
+    public float timeEnemySpawnMax = 2.25f; // 다음 배치까지의 시간 간격 최댓값
     private float timeEnemySpawn; // 다음 배치까지의 시간 간격
 
     [Header("SpawnPoint")]
