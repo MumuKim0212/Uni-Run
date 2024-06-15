@@ -16,10 +16,13 @@ public class GameManager : MonoBehaviour
     public GameObject soundOn;
     public GameObject soundOff;
 
+    private float playTime = 0f;
     private int score = 0;              // 게임 점수
-    int scoreAdd = 0;
-    float texttmp = 0;
-    float bestScore;
+    private int scoreAdd = 0;
+    private float scoreTextUpSum = 0;
+    private float scoreTextUpSpeed = 10f;
+    private float bestScore;
+    public float speedLevel = 1f;
 
     void Awake()
     {
@@ -39,9 +42,6 @@ public class GameManager : MonoBehaviour
         if (isGameover && Input.GetMouseButtonDown(0))
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-        if (scoreAdd == 1)
-            ScoreAdd();
-
         if (Music.instance.isSoundOn == true)
         {
             soundOn.SetActive(true);
@@ -52,6 +52,17 @@ public class GameManager : MonoBehaviour
             soundOn.SetActive(false);
             soundOff.SetActive(true);
         }
+    }
+    private void FixedUpdate()
+    {
+        if (playTime > 10f)
+        {
+            speedLevel += 0.2f;
+            playTime = 0f;
+        }
+        else playTime += Time.fixedDeltaTime;
+        if (scoreAdd == 1)
+            ScoreAdd();
     }
 
     // 점수를 증가시키는 메서드
@@ -66,19 +77,19 @@ public class GameManager : MonoBehaviour
     }
     void ScoreAdd()
     {
-        if (texttmp <= 2.5f)
+        if (scoreTextUpSum <= 2.5f)
         {
-            scoreRect.position += Vector3.up;
-            texttmp += 0.1f;
+            scoreRect.position += Vector3.up * scoreTextUpSpeed;
+            scoreTextUpSum += 1f;
         }
-        else if (texttmp <= 5f)
+        else if (scoreTextUpSum <= 5f)
         {
-            scoreRect.position += Vector3.down;
-            texttmp += 0.1f;
+            scoreRect.position += Vector3.down * scoreTextUpSpeed;
+            scoreTextUpSum += 1f;
         }
         else
         {
-            texttmp = 0;
+            scoreTextUpSum = 0;
             scoreAdd = 0;
         }
     }

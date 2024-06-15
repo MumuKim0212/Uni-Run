@@ -4,13 +4,13 @@ using System.Collections;
 // PlayerController는 플레이어 캐릭터로서 Player 게임 오브젝트를 제어한다.
 public class PlayerController : MonoBehaviour
 {
-    public AudioClip jumpClip;           // 점프시 재생할 오디오 클립
-    public AudioClip deathClip;          // 사망시 재생할 오디오 클립
-    public AudioClip getItem;          // 사망시 재생할 오디오 클립
+    public AudioClip jumpClip;
+    public AudioClip deathClip;
+    public AudioClip getItem;
+    public AudioClip hitSound;
     public float jumpForce = 700f;      // 점프 힘
     public ParticleSystem particle;
     public GameManager gameManager;
-    public Music music;
     public GameObject[] heart;
     private bool isGrounded = false;     // 바닥에 닿았는지 나타냄
     private bool isDead = false;         // 사망 상태
@@ -103,8 +103,16 @@ public class PlayerController : MonoBehaviour
         if (collision.collider.tag == "Dead" && !isDead)
         {
             collision.gameObject.SetActive(false);
-            if (life > 0) heart[life--].SetActive(false);
-            else Die();
+            if (life > 0)
+            {
+                heart[life--].SetActive(false);
+                playerAudio.PlayOneShot(hitSound);
+            }
+            else
+            {
+                heart[life--].SetActive(false);
+                Die();
+            }
         }
         else if (collision.collider.tag == "Finish" && !isDead)
             Die();
