@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.VFX;
 
 // PlayerController는 플레이어 캐릭터로서 Player 게임 오브젝트를 제어한다.
 public class PlayerController : MonoBehaviour
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem particle;
     public GameManager gameManager;
     public GameObject[] heart;
+    public BackgroundMove bgMove;
+
     private bool isGrounded = false;     // 바닥에 닿았는지 나타냄
     private bool isDead = false;         // 사망 상태
 
@@ -27,7 +30,6 @@ public class PlayerController : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
-
     }
 
     private void Update()
@@ -107,6 +109,7 @@ public class PlayerController : MonoBehaviour
             {
                 heart[life--].SetActive(false);
                 playerAudio.PlayOneShot(hitSound);
+                bgMove.isDamaged = true;
             }
             else
             {

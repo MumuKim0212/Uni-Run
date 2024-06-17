@@ -6077,7 +6077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainScene: Main
   audioClip: {fileID: 8300000, guid: 35cf7766e9e2aa542811e896fde57989, type: 3}
-  audioSource: {fileID: 765193735}
+  audioSource: {fileID: 794359723}
   pen: {fileID: 0}
 --- !u!114 &773290662
 MonoBehaviour:
@@ -6622,6 +6622,7 @@ MonoBehaviour:
   - {fileID: 877836571}
   - {fileID: 1585577800}
   - {fileID: 173608003}
+  bgMove: {fileID: 1770869638}
 --- !u!1 &877836571
 GameObject:
   m_ObjectHideFlags: 0
@@ -7988,6 +7989,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1770869637}
+  - component: {fileID: 1770869638}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -8016,6 +8018,20 @@ Transform:
   - {fileID: 1056191369}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1770869638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770869636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d023fe27afab3af44a1c430a09c634ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgTransform: {fileID: 1770869637}
+  isDamaged: 0
 --- !u!1 &1774481614
 GameObject:
   m_ObjectHideFlags: 0
