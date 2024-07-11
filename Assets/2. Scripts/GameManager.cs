@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameoverUI;       // 게임 오버시 활성화 할 UI 게임 오브젝트
     public GameObject soundOn;
     public GameObject soundOff;
+    public GameObject menuPanel;
 
     private float playTime = 0f;
     private int score = 0;              // 게임 점수
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     private float scoreTextUpSpeed = 10f;
     private float bestScore;
     public float speedLevel = 1f;
+
 
     void Awake()
     {
@@ -117,5 +119,23 @@ public class GameManager : MonoBehaviour
         else
             Music.instance.isSoundOn = false;
     }
+    public void OpenMenu()
+    {
+        menuPanel.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+    }
 
+    public void CloseMenu()
+    {
+        menuPanel.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+    }
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }
